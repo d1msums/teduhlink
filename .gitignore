@@ -1,0 +1,10 @@
+data/
+.venv/
+__pycache__/
+*.pyc
+*.pt
+*.sqlite3*
+.env
+.env.*
+device-token.txt
+node_modules/
