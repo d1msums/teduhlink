@@ -1,5 +1,4 @@
 <div align="center">
-
 # 🌧️ TeduhLink
 ## Connected Shelter Information for Cyberjaya Riders
 
@@ -17,7 +16,6 @@
 [Explore the Project](#-project-overview) ·
 [How It Works](#-how-it-works) ·
 [Prototype Scope](#-prototype-scope) ·
-[Meet the Team](#-team-roles)
 
 </div>
 
