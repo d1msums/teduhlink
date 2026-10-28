@@ -1,9 +1,9 @@
 <div align="center">
-        
+
 # 🌧️ TeduhLink
 ## Connected Shelter Information for Cyberjaya Riders
 
-### *Know the conditions. See the crowding. Choose your stop.*
+### *Find shelter. Check the crowding. Choose your stop.*
 
 **Cyberjaya 5G Innovation Challenge**  
 *5G Connected & Safe Last-Mile Mobility*
@@ -16,7 +16,7 @@
 
 [Explore the Project](#-project-overview) ·
 [How It Works](#-how-it-works) ·
-[Prototype Scope](#-prototype-scope) 
+[Prototype Scope](#-prototype-scope)
 
 </div>
 
@@ -24,13 +24,15 @@
 
 ## 🌍 Project Overview
 
-**TeduhLink is an IoT and computer-vision prototype that helps riders compare potential stopping places using recent local wetness observations and estimated crowding.**
+**TeduhLink helps riders find nearby shelter during rain and compare estimated crowding before choosing where to stop.**
 
 The project explores a practical question:
 
-> Before heading to a stop, can a rider see whether its monitored area is wet and whether many people are already there?
+> When rain disrupts a journey, how can a rider find nearby shelter and see whether it appears busy before heading there?
 
 TeduhLink combines an ESP32-connected moisture sensor, camera-based person detection and a shared backend. A planned rider-facing interface presents this information alongside stop locations and facilities.
+
+Our focus is clearer information for the rider—not guaranteed shelter availability or automatic decisions about where they must go.
 
 ---
 
@@ -38,7 +40,7 @@ TeduhLink combines an ESP32-connected moisture sensor, camera-based person detec
 
 A map can show where a place is, but a static listing does not necessarily tell riders:
 
-- Whether a monitored sensor at that location is currently wet.
+- Which nearby locations offer suitable shelter and access for riders.
 - Whether the observed shelter area appears busy.
 - When the information was last updated.
 - Whether live information has become unavailable.
@@ -53,11 +55,11 @@ The prototype demonstrates the technical concept. Citywide demand, location suit
 
 TeduhLink brings two independent observations together:
 
-### 🌧️ Local Wetness
+### 🌧️ Rain-Contact Prompt
 
 An **ESP32 and MH-RD resistive plate** detect moisture contacting the sensor plate.
 
-The backend receives the readings and makes the latest condition available to the application.
+The backend receives the readings so the app can offer a rain-related prompt to explore nearby shelters. For outdoor deployment, expose the plate to rain. It detects water contact and may remain wet after rain stops; it does not measure shelter-floor wetness or prove that rain is currently falling. Riders can browse shelters even when the sensor is dry or unavailable.
 
 ### 👥 Estimated Crowding
 
@@ -75,7 +77,7 @@ The interface translates the count into simple categories:
 The interface is designed to show:
 
 - Stop names and locations.
-- Local wetness observations.
+- A rain-sensor indication, separate from shelter suitability.
 - Estimated crowding.
 - Separate update times for each observation.
 - Clearly labelled live, simulated and unavailable information.
@@ -156,6 +158,20 @@ ESP32 / Camera Gateway
     Hosted Backend
           │
        Rider App
+```
+
+The ESP32 itself is not a 5G device.
+
+For an expanded system, 5G could support camera uploads to remote inference services and timely updates across multiple locations where fixed internet is inconvenient.
+
+However:
+
+- Small wetness and occupancy messages do not inherently require 5G.
+- The current prototype uses local networking and laptop-based inference.
+- A 5G performance advantage has not yet been demonstrated.
+- Any latency or reliability claims must come from measured tests.
+
+A planned evaluation is to compare update delays and availability using the same workload over available network connections.
 
 ---
 
@@ -317,3 +333,13 @@ Any simulated screen, location or data source is labelled during the demonstrati
 *A student prototype exploring connected last-mile mobility in Cyberjaya.*
 
 </div>
+
+## Core rider journey
+
+1. A rider encounters rain or notices a rain-sensor prompt.
+2. They open Find Shelter, available regardless of sensor state.
+3. They compare listed shelters, facilities and available crowding estimates.
+4. They inspect a stop and open directions where the destination is verified.
+5. They choose where to stop; crowding is not a reservation or guaranteed space.
+
+One exposed rain-contact sensor supports the demonstration. A sensor at every shelter is not required, and one sensor does not represent weather across all of Cyberjaya. Future sensor placement requires validation.
