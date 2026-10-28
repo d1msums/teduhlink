@@ -16,7 +16,7 @@
 
 [Explore the Project](#-project-overview) ·
 [How It Works](#-how-it-works) ·
-[Prototype Scope](#-prototype-scope) ·
+[Prototype Scope](#-prototype-scope) 
 
 </div>
 
