@@ -32,8 +32,6 @@ The project explores a practical question:
 
 TeduhLink combines an ESP32-connected moisture sensor, camera-based person detection and a shared backend. A planned rider-facing interface presents this information alongside stop locations and facilities.
 
-Our focus is clearer information for the rider—not guaranteed shelter availability or automatic decisions about where they must go.
-
 ---
 
 ## 🛵 The Problem We Address
@@ -158,20 +156,6 @@ ESP32 / Camera Gateway
     Hosted Backend
           │
        Rider App
-```
-
-The ESP32 itself is not a 5G device.
-
-For an expanded system, 5G could support camera uploads to remote inference services and timely updates across multiple locations where fixed internet is inconvenient.
-
-However:
-
-- Small wetness and occupancy messages do not inherently require 5G.
-- The current prototype uses local networking and laptop-based inference.
-- A 5G performance advantage has not yet been demonstrated.
-- Any latency or reliability claims must come from measured tests.
-
-A planned evaluation is to compare update delays and availability using the same workload over available network connections.
 
 ---
 
