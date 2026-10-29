@@ -1,22 +1,23 @@
 <div align="center">
 
 # 🌧️ TeduhLink
-## Connected Shelter Information for Cyberjaya Riders
+## Find Shelter. Check the Crowding. Choose Your Stop.
 
-### *Find shelter. Check the crowding. Choose your stop.*
+### *Connected shelter information for Cyberjaya riders*
 
 **Cyberjaya 5G Innovation Challenge**  
 *5G Connected & Safe Last-Mile Mobility*
 
-![Status](https://img.shields.io/badge/Status-Working_Prototype-A3E635?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Prototype_in_Development-A3E635?style=for-the-badge)
 ![IoT](https://img.shields.io/badge/IoT-ESP32-00979D?style=for-the-badge)
 ![AI](https://img.shields.io/badge/AI-Person_Detection-7C3AED?style=for-the-badge)
 ![Backend](https://img.shields.io/badge/Backend-Python-3776AB?style=for-the-badge)
 ![Location](https://img.shields.io/badge/Location-Cyberjaya-111827?style=for-the-badge)
 
-[Explore the Project](#-project-overview) ·
+[Project Overview](#-project-overview) ·
+[Local Context](#-inspiration-and-local-context) ·
 [How It Works](#-how-it-works) ·
-[Prototype Scope](#-prototype-scope)
+[Prototype Status](#-prototype-status) 
 
 </div>
 
@@ -28,238 +29,259 @@
 
 The project explores a practical question:
 
-> When rain disrupts a journey, how can a rider find nearby shelter and see whether it appears busy before heading there?
+> When rain interrupts a journey, how can a rider find a suitable nearby shelter and see whether its monitored area appears busy?
 
-TeduhLink combines an ESP32-connected moisture sensor, camera-based person detection and a shared backend. A planned rider-facing interface presents this information alongside stop locations and facilities.
+TeduhLink combines:
 
-Our focus is clearer information for the rider—not guaranteed shelter availability or automatic decisions about where they must go.
+- A shelter directory and map.
+- An ESP32-connected rain-contact sensor.
+- Camera-based person detection.
+- A Python backend.
+- A rider-facing web app.
 
----
-
-## 🛵 The Problem We Address
-
-A map can show where a place is, but a static listing does not necessarily tell riders:
-
-- Which nearby locations offer suitable shelter and access for riders.
-- Whether the observed shelter area appears busy.
-- When the information was last updated.
-- Whether live information has become unavailable.
-
-TeduhLink explores how these observations can help riders make more informed stopping decisions around Cyberjaya.
-
-The prototype demonstrates the technical concept. Citywide demand, location suitability and operational arrangements still require field validation.
+Riders can browse shelters at any time, including when the rain sensor is dry or unavailable.
 
 ---
 
-## 💡 Our Solution
+## 💡 Inspiration and Local Context
 
-TeduhLink brings two independent observations together:
+TeduhLink is an independent student prototype inspired by the TEDUH rider-rest initiative and its relevance to Cyberjaya.
+
+### A local connection
+
+Media Selangor reported in September 2025 that MPSepang planned a TEDUH hub off Jalan Teknokrat 6 in Cyberjaya.
+
+This provides local context for the project. The historical report alone does not establish the facility’s current operating status.
+
+[Source: Selangor councils get RM30,000 each to build delivery rider rest stops — Media Selangor, September 2025](https://mediaselangor.com/en/2025/09/320927)
+
+### Riders’ shelter needs
+
+A September 2026 Media Selangor report describes riders seeking covered places to rest and dealing with unpredictable weather. The interviews concern Petaling Jaya and the wider Klang Valley.
+
+[Source: TEDUH gives Selangor riders respite from sun, rain and the road — Media Selangor, 4 September 2026](https://mediaselangor.com/en/2026/09/393885)
+
+### What we are exploring
+
+These sources support the importance of suitable rider rest and shelter facilities.
+
+TeduhLink explores whether a digital service combining shelter discovery and recent crowding estimates could help riders choose a stopping place.
+
+**TeduhLink is not an official TEDUH or MPSepang service. No partnership or endorsement is claimed.**
+
+---
+
+## 🛵 The Rider Experience
+
+1. A rider encounters rain or notices a rain-sensor prompt.
+2. They open **Find Shelter**.
+3. They explore listed locations and available facility information.
+4. They compare crowding estimates where monitoring is available.
+5. They inspect a stop and open directions where the destination is verified.
+6. They decide where to stop.
+
+Crowding information helps inform that decision. It does not reserve space or guarantee availability.
+
+---
+
+## 🧩 Main Features
+
+### 🏠 Shelter Discovery
+
+A directory and map present proposed Cyberjaya stopping locations.
+
+Facility descriptions, access arrangements and coordinates must be verified before being presented as confirmed.
 
 ### 🌧️ Rain-Contact Prompt
 
-An **ESP32 and MH-RD resistive plate** detect moisture contacting the sensor plate.
+An ESP32 reads an MH-RD resistive plate and uploads observations to the backend.
 
-The backend receives the readings so the app can offer a rain-related prompt to explore nearby shelters. For outdoor deployment, expose the plate to rain. It detects water contact and may remain wet after rain stops; it does not measure shelter-floor wetness or prove that rain is currently falling. Riders can browse shelters even when the sensor is dry or unavailable.
+When water contacts the plate, the app can display:
+
+> Rain sensor activated — Need shelter? Compare nearby stops and crowding.
+
+For outdoor use, the plate would be positioned where rainfall can reach it.
+
+The sensor detects water contact. It can remain wet after rain stops and does not prove that rain is currently falling.
 
 ### 👥 Estimated Crowding
 
-A camera and pretrained person-detection model estimate the number of people visible inside the monitored area.
+A camera and pretrained person-detection model estimate people visible inside the monitored area.
 
-The interface translates the count into simple categories:
+The app presents simple categories:
 
 - **No people detected**
 - **Some people detected**
 - **Busy**
 - **Crowding unavailable**
 
-### 📱 Rider Interface
+### ⏱️ Information Freshness
 
-The interface is designed to show:
+Rain-sensor and camera observations have independent update times.
 
-- Stop names and locations.
-- A rain-sensor indication, separate from shelter suitability.
-- Estimated crowding.
-- Separate update times for each observation.
-- Clearly labelled live, simulated and unavailable information.
-- Directions to eligible, verified real-world destinations.
+When an observation expires, the app should show it as unavailable rather than continuing to present it as current.
 
 ---
 
 ## 🔄 How It Works
 
 ```text
-MH-RD Sensor Plate
+Rain-contact plate
         │
         ▼
-      ESP32 ─────── Wetness readings ──────┐
-                                         │
-                                         ▼
-                                  Python Backend
-                                         │
-Camera ──► Person Detection ──────────────┘
-                                         │
-                                         ▼
-                                  Stop Status API
-                                         │
-                                         ▼
-                               Rider App / Web Interface
+      ESP32 ───── Sensor readings ──────┐
+                                      │
+                                      ▼
+                               Python Backend
+                                      ▲
+                                      │
+Camera ──► Person Detection ── Counts ──┘
+                                      │
+                                      ▼
+                               TeduhLink App
+                                      │
+                                      ▼
+                         Rider explores shelter options
 ```
 
-1. Water contacting the plate changes its electrical reading.
-2. The ESP32 sends the reading to the backend.
-3. The camera model estimates how many people are visible.
-4. The backend tracks the latest observations and their timestamps.
-5. The interface displays the conditions for the selected stop.
-6. If a reading becomes stale, its status becomes unavailable.
+The current demonstration runs on a local network.
 
-**Wetness and crowding are independent:** a camera outage should not hide a wetness reading that is still arriving.
+The ESP32 sends sensor readings to the backend. The camera process is designed to upload person-count observations separately. The app retrieves the latest status for each stream.
 
 ---
 
-## ✨ What Makes TeduhLink Different?
+## 🌧️ What the Rain Sensor Means
 
-### Information before arrival
+The rain plate supports a local rain-related prompt.
 
-The concept helps riders assess a stop before reaching it.
+It does not measure:
 
-### Physical observations, not only static listings
+- Shelter-floor wetness.
+- Road friction.
+- Rainfall intensity.
+- Future rain arrival.
+- Weather across all of Cyberjaya.
 
-The prototype connects actual sensor readings and camera estimates to a shared backend.
+A dry plate does not prove that it is not raining elsewhere.
 
-### Clear information freshness
-
-An old observation should not remain on-screen as if it were current.
-
-### Simple crowding categories
-
-Riders see an understandable summary rather than needing to interpret a camera feed.
-
-### A repeatable deployment model
-
-The same structure could support additional stops, each with its own identifier, observations and location information.
-
-Expansion would require suitable sites, permissions, connectivity, power and maintenance.
-
----
-
-## 📡 Where 5G Fits
-
-The proposed deployment uses a **5G router or phone hotspot as the internet connection** between field equipment and the hosted service.
-
-```text
-ESP32 / Camera Gateway
-          │
-     Local Wi-Fi
-          │
-     5G Router / Phone
-          │
-       Internet
-          │
-    Hosted Backend
-          │
-       Rider App
-```
-
-The ESP32 itself is not a 5G device.
-
-For an expanded system, 5G could support camera uploads to remote inference services and timely updates across multiple locations where fixed internet is inconvenient.
-
-However:
-
-- Small wetness and occupancy messages do not inherently require 5G.
-- The current prototype uses local networking and laptop-based inference.
-- A 5G performance advantage has not yet been demonstrated.
-- Any latency or reliability claims must come from measured tests.
-
-A planned evaluation is to compare update delays and availability using the same workload over available network connections.
-
----
-
-## 🧪 Prototype Scope
-
-### Implemented and initially tested
-
-- ESP32 moisture-sensor readings.
-- Wet and dry calibration.
-- Sensor uploads to the local backend.
-- Backend weather status and stale-reading handling.
-- Local person detection tested with one person.
-
-### In progress or awaiting verification
-
-- Multi-person counting and crowding-category tests.
-- Complete camera-to-backend integration.
-- Connecting the designed interface to live API responses.
-- Public backend deployment.
-- End-to-end demonstration over a 5G connection.
-
-### Outside the current prototype
-
-- Rain arrival-time prediction.
-- Rainfall intensity measurement.
-- Road friction or skid-risk measurement.
-- Motorcycle parking-bay detection.
-- Shelter reservations.
-- Guaranteed capacity or availability.
-- Citywide operational deployment.
+One exposed rain-contact sensor is sufficient for the current demonstration. Future sensor placement should depend on coverage needs, maintenance and field validation.
 
 ---
 
 ## 👥 Crowding Categories
 
-For the controlled demonstration:
+The controlled demonstration uses these thresholds:
 
 - **0 detected people:** No people detected.
 - **1–2 detected people:** Some people detected.
 - **3 or more detected people:** Busy.
-- **Missing or stale observations:** Crowding unavailable.
+- **Missing or expired observation:** Crowding unavailable.
 
-These are demonstration thresholds, not certified facility-capacity limits.
+These are demonstration thresholds, not certified shelter-capacity limits.
 
-A count of zero means the model detected no people in the monitored area. It does not guarantee that the entire location is empty.
+A zero count means the model detected no people in its monitored view. It does not guarantee that the entire location is empty.
 
-The model detects people—not rider identities, motorcycles or available parking bays.
-
----
-
-## 📍 Real Locations and Demonstration Data
-
-The interface may use real Cyberjaya location names to illustrate the intended rider experience.
-
-**Using a real place name does not mean equipment has been installed there or that the site owner has endorsed the project.**
-
-For the current demonstration:
-
-- Physical sensor and camera testing takes place in a controlled environment.
-- Any association with a real stop is labelled as a demonstration.
-- Simulated alternative stops are identified explicitly.
-- Facilities and access arrangements must be verified before being presented as confirmed.
-- Directions are disabled for fictional destinations or indoor test areas.
+The system does not identify riders or count available motorcycle parking bays.
 
 ---
 
-## 🧰 Technology and Equipment
+## 📡 Proposed Role of 5G
+
+The proposed outdoor deployment uses a 5G router or phone hotspot to connect monitoring equipment to an online service.
+
+```text
+ESP32 / Camera Gateway
+          │
+      Local connection
+          │
+      5G Router
+          │
+        Internet
+          │
+     Hosted Service
+          │
+      Rider Apps
+```
+
+The ESP32 itself is not a 5G device.
+
+5G could provide connectivity for distributed monitoring locations where fixed internet access is inconvenient. A future implementation could also evaluate camera uploads for remote inference.
+
+The current local demonstration does not establish a 5G performance advantage.
+
+Small status messages can also operate over other networks. Any claim about lower delay, higher reliability or greater capacity requires a measured comparison.
+
+---
+
+## 🧪 Prototype Status
+
+### Confirmed so far
+
+- ESP32 sensor readings and dry/wet calibration.
+- Sensor uploads to the local Python backend.
+- Rain-sensor readings displayed on the local web interface.
+- Backend handling for expired sensor readings.
+- Initial local person-detection testing with one person.
+- Exported Stitch interface screens.
+
+### Still to verify or complete
+
+- Camera-to-backend-to-app integration.
+- Multi-person counting and crowding-category transitions.
+- Camera-disconnection behaviour in the app.
+- Final interface consistency and layout.
+- Complete demonstration recording.
+- Public interactive demo.
+- Any proposed public live-data deployment.
+- End-to-end 5G evaluation.
+
+This section reflects development progress and should be updated after each completed test.
+
+---
+
+## 📍 Locations and Demonstration Data
+
+Real Cyberjaya place names may appear in the interface to illustrate the intended experience.
+
+Their inclusion does not mean that:
+
+- Monitoring equipment is installed there.
+- The owner has approved the project.
+- The location is an official project partner.
+- Shelter access or available space is guaranteed.
+
+Current physical testing takes place indoors.
+
+The interface distinguishes:
+
+- **Indoor prototype feed**
+- **Simulated alternative**
+- **No monitoring**
+
+Distances, journey times, facilities and directions should be labelled as examples or unverified when they have not been validated.
+
+---
+
+## 🧰 Technology
 
 ### Hardware
 
 - ESP32 development board.
-- MH-RD resistive moisture plate and compatible circuitry.
+- MH-RD rain-contact plate and associated wiring.
 - USB power/data cable.
-- Jumper wires and breadboard.
+- Breadboard and jumper wires.
 - Camera or laptop webcam.
 - Laptop for the backend and person-detection process.
-- Phone hotspot or router for connectivity.
+- Local Wi-Fi connection.
 
 ### Software
 
-- Arduino IDE for ESP32 firmware.
+- Arduino IDE.
 - Python backend.
-- SQLite for prototype data storage.
+- SQLite prototype storage.
 - Pretrained YOLO person detection.
-- Google Stitch for interface design.
-- Git and GitHub for version control.
-
-The exported interface still needs application code to connect it to the backend.
+- HTML, CSS and JavaScript interface exported from Google Stitch.
+- Git and GitHub.
 
 ---
 
@@ -267,79 +289,73 @@ The exported interface still needs application code to connect it to the backend
 
 ```text
 teduhlink/
-├── backend/       # API, sensor ingestion and stop-status logic
-├── ml/            # Camera-based person detection
+├── backend/       # API, data storage and sensor ingestion
+├── ml/            # Camera and person-detection code
+├── frontend/      # Rider interface and live-data connection
 ├── .gitignore
 └── README.md
 ```
 
-Frontend and firmware source can be added when prepared for sharing.
+Local credentials, device tokens, runtime databases and downloaded model weights should not be committed.
 
-Do not commit Wi-Fi passwords, device tokens, private configuration, local databases or identifiable camera recordings.
+Firmware containing private Wi-Fi or device credentials must be sanitised before sharing.
 
 ---
 
-## 🔌 Backend Interfaces
+## 🔌 Backend API
 
-The prototype backend includes:
+The prototype includes:
 
 - `GET /health` — service health.
 - `GET /api/stops` — stop information.
-- `GET /api/stops/A/weather` — Stop A wetness status.
-- `GET /api/stops/A/occupancy` — Stop A crowding status.
-- `POST /api/sensor-readings` — receive sensor readings.
-- `POST /api/occupancy-readings` — receive person-count observations.
+- `GET /api/stops/A/weather` — rain-plate observation.
+- `GET /api/stops/A/occupancy` — crowding observation.
+- `POST /api/sensor-readings` — authenticated sensor uploads.
+- `POST /api/occupancy-readings` — authenticated count uploads.
 
-Device upload credentials must remain private and must not be included in public frontend code.
+The weather endpoint describes a local sensor observation, not a weather forecast.
+
+Private upload credentials must not appear in public frontend code.
 
 ---
 
-## 🎬 Demonstration Walkthrough
+## 🎬 Demonstration Plan
 
-1. Open the application and select the demonstration stop.
-2. Show a dry sensor plate and its latest backend status.
-3. Apply a small amount of water to the plate.
-4. Show the wetness update reaching the interface.
-5. Have a person enter the monitored camera area.
-6. Show the crowding estimate change.
-7. Add participants to demonstrate the “Busy” category.
-8. Stop camera updates and show crowding becoming unavailable.
-9. Show wetness continuing to update independently.
-10. Explain how the same approach could extend to approved Cyberjaya sites.
+1. Introduce the rider’s shelter problem and TEDUH inspiration.
+2. Show the shelter directory and selected-stop screen.
+3. Show the dry rain plate and corresponding app status.
+4. Apply water and show the app update.
+5. Demonstrate camera counts as people enter and leave.
+6. Show the “Busy” category during the multi-person test.
+7. Stop camera updates and show crowding becoming unavailable.
+8. Show the rain sensor continuing independently.
+9. Explain the proposed 5G deployment and remaining validation.
 
-Any simulated screen, location or data source is labelled during the demonstration.
+AI-generated introductory footage is labelled as illustrative. Simulated data is identified separately from actual hardware observations.
 
 ---
 
 ## 🚀 Next Steps
 
-- [ ] Complete multi-person testing.
-- [ ] Verify camera uploads to the backend.
-- [ ] Integrate the exported interface.
-- [ ] Test wetness and crowding freshness separately.
-- [ ] Deploy and test the hosted backend.
-- [ ] Demonstrate and measure the 5G connection.
-- [ ] Validate candidate stop facilities and access.
+- [ ] Verify camera-to-app updates.
+- [ ] Complete multi-person tests.
+- [ ] Check independent stale-data behaviour.
+- [ ] Finish interface layout and wording.
+- [ ] Record the complete demonstration.
+- [ ] Publish a clearly labelled interactive demo.
 - [ ] Gather rider feedback.
-- [ ] Record the final demonstration.
+- [ ] Verify candidate shelter access and facilities.
+- [ ] Seek permission for any outdoor pilot.
+- [ ] Evaluate connectivity and maintenance requirements.
 
 ---
 
 <div align="center">
 
 ### 🌧️ TeduhLink
-**Recent observations. Clearer stop choices.**
 
-*A student prototype exploring connected last-mile mobility in Cyberjaya.*
+**Find shelter. Check the crowding. Choose your stop.**
+
+*An independent student prototype for connected last-mile mobility in Cyberjaya.*
 
 </div>
-
-## Core rider journey
-
-1. A rider encounters rain or notices a rain-sensor prompt.
-2. They open Find Shelter, available regardless of sensor state.
-3. They compare listed shelters, facilities and available crowding estimates.
-4. They inspect a stop and open directions where the destination is verified.
-5. They choose where to stop; crowding is not a reservation or guaranteed space.
-
-One exposed rain-contact sensor supports the demonstration. A sensor at every shelter is not required, and one sensor does not represent weather across all of Cyberjaya. Future sensor placement requires validation.
