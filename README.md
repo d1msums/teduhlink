@@ -104,9 +104,7 @@ The intended 5G workload is repeated camera-image uploads across distributed sit
 - ESP32 sensor-to-backend updates: tested by the team.
 - Camera counting-to-app integration: passed, as reported by the team.
 - Public interactive journey: simulated experience for reviewers.
-- Outdoor installations and site agreements: not confirmed.
 - Multi-site shared AI over 5G: proposed architecture.
-- Field accuracy, rider usefulness and connectivity comparison: still to validate.
 
 <a name="run-the-working-prototype"></a>
 
