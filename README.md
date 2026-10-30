@@ -17,7 +17,7 @@
 [![Open interactive demo](https://img.shields.io/badge/EXPLORE-TEDUHLINK_DEMO-C8F500?style=for-the-badge)](https://d1msums.github.io/teduhlink/)
 [![Repository](https://img.shields.io/badge/VIEW-SOURCE_CODE-202725?style=for-the-badge)](https://github.com/d1msums/teduhlink)
 
-[Overview](#project-overview) · [Local context](#inspiration-and-local-context) · [How it works](#how-it-works) · [Run locally](#run-the-working-prototype) · [Team](#team)
+[Overview](#project-overview) · [Local context](#inspiration-and-local-context) · [How it works](#how-it-works) · [Run locally](#run-the-working-prototype) 
 
 </div>
 
