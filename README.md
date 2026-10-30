@@ -2,9 +2,9 @@
 
 # 🌧️ TeduhLink
 
-## Find Shelter. Check the Crowding. Choose Your Stop.
+## 🛵 Find Shelter. Check the Crowding. Choose Your Stop.
 
-### *Connected shelter information for Cyberjaya riders*
+### 🌐 *Connected shelter information for Cyberjaya riders*
 
 **Cyberjaya 5G Future Talent Innovation Challenge 2026**  
 *5G Connected & Safe Last-Mile Mobility*
@@ -21,7 +21,9 @@
 
 </div>
 
-## Project overview
+<a name="project-overview"></a>
+
+## 🌧️ Project overview
 
 When rain interrupts a delivery, riders need somewhere suitable to stop. TeduhLink helps them browse proposed shelter locations and compare estimated crowding before choosing a stop.
 
@@ -31,7 +33,9 @@ Our controlled indoor prototype combines an ESP32 rain-contact sensor, automatic
 
 The demo uses real Cyberjaya place names to explain proposed locations. It does not show sensors installed at those premises or imply permission or partnership.
 
-## Inspiration and local context
+<a name="inspiration-and-local-context"></a>
+
+## 📍 Inspiration and local context
 
 TeduhLink is inspired by the existing TEDUH rider shelter initiative. [Media Selangor’s September 2025 report](https://mediaselangor.com/en/2025/09/320927) identifies a planned MPSepang TEDUH hub off Jalan Teknokrat 6 in Cyberjaya. This gives the proposal a concrete local infrastructure context; it does not establish the facility’s current operating status.
 
@@ -39,7 +43,7 @@ TeduhLink is inspired by the existing TEDUH rider shelter initiative. [Media Sel
 
 [Malaysian occupational safety research](https://doi.org/10.5772/intechopen.110783) also identifies exposure to heavy rain and thunderstorms among delivery riders’ hazards. Our proposal addresses shelter information within that wider problem. We have not measured crash reduction, rider adoption or time savings.
 
-## What riders can see
+## 📱 What riders can see
 
 - Listed shelter options and proposed locations.
 - **No people detected**, **Some people detected**, or **Busy** for a monitored image region.
@@ -49,14 +53,21 @@ TeduhLink is inspired by the existing TEDUH rider shelter initiative. [Media Sel
 
 The demo uses **three people or more as Busy**. This is a demonstration threshold, not a verified shelter capacity. People counts do not measure free seats, motorcycle bays or permission to stop. Riders remain responsible for choosing a suitable place and should stop safely before using the phone.
 
-## How it works
+<a name="how-it-works"></a>
 
-### Working indoor prototype
+## ⚙️ How it works
 
-```text
-Webcam → local YOLOv8n people detection → automatic count upload ┐
-                                                             ├→ Python backend → live app
-MH-RD rain plate → ESP32 → automatic sensor upload             ┘
+### 🛠️ Working indoor prototype
+
+```mermaid
+flowchart TD
+    CAM["Webcam"] --> AI["Local YOLOv8n people detection"]
+    AI -->|Automatic count upload| API["Python backend"]
+    RAIN["MH-RD rain plate"] --> ESP["ESP32"]
+    ESP -->|Automatic sensor upload| API
+    API -->|Current readings and timestamps| APP["Live rider app"]
+    style API fill:#d2f500,color:#111,stroke:#657800
+    style APP fill:#d2f500,color:#111,stroke:#657800
 ```
 
 The camera model counts visible people whose detection centres fall inside a selected area. Recent observations stabilise the estimate. Uploads and app updates happen automatically, without manual count entry or approval.
@@ -65,14 +76,21 @@ The rain plate detects water contacting its surface. Outdoors, this can indicate
 
 Each stream has its own freshness state. In the current prototype, readings expire after ten seconds. A missing camera reading is displayed as unavailable, rather than zero people.
 
-### Proposed deployment over 5G
+### 📡 Proposed deployment over 5G
 
-```text
-Participating shelter cameras
-           ↓ automatic selected-frame uploads through 5G gateways
-Shared AI server processes frames from multiple stops
-           ↓ estimated counts with stop IDs and timestamps
-Stop-status backend → rider app
+```mermaid
+flowchart TD
+    CAM["Participating shelter cameras"]
+    GATE["On-site 5G gateways"]
+    AI["Shared AI server<br/>People detection for multiple stops"]
+    API["Stop-status backend"]
+    APP["Rider app"]
+    CAM -->|Selected camera frames| GATE
+    GATE -->|Automatic image uploads over 5G| AI
+    AI -->|Counts, stop IDs and timestamps| API
+    API -->|Updated shelter information| APP
+    style GATE fill:#d2f500,color:#111,stroke:#657800
+    style AI fill:#d2f500,color:#111,stroke:#657800
 ```
 
 The shared server would run people detection for participating locations, reducing the need for an AI computer at each stop. Existing CCTV could be used only with owner approval and a suitable view, stream format and network connection.
@@ -81,7 +99,7 @@ The intended 5G workload is repeated camera-image uploads across distributed sit
 
 **The current prototype uses local processing. Multi-site 5G image delivery and its performance benefits remain proposed.** No network slicing, guaranteed latency or city deployment is claimed.
 
-## Prototype status
+## ✅ Prototype status
 
 - ESP32 sensor-to-backend updates: tested by the team.
 - Camera counting-to-app integration: passed, as reported by the team.
@@ -90,7 +108,9 @@ The intended 5G workload is repeated camera-image uploads across distributed sit
 - Multi-site shared AI over 5G: proposed architecture.
 - Field accuracy, rider usefulness and connectivity comparison: still to validate.
 
-## Run the working prototype
+<a name="run-the-working-prototype"></a>
+
+## 🚀 Run the working prototype
 
 The portable setup requires Windows, Python 3.11 with the Python launcher, a webcam and internet for initial downloads. Keep `ml`, `backend` and `frontend` together.
 
@@ -117,7 +137,7 @@ See [the full ML setup and recording guide](ml/README.md) for instructions and t
 
 The GitHub Pages demo is a separate simulated experience and does not receive these local webcam uploads.
 
-## Repository structure
+## 📂 Repository structure
 
 ```text
 teduhlink/
@@ -129,7 +149,7 @@ teduhlink/
 
 GitHub Pages can also publish from the repository root, depending on the configured publishing source. Keep its HTML and required assets together.
 
-## Implementation considerations
+## 🔧 Implementation considerations
 
 A field deployment needs site-owner permission, verified stop access, power, weather protection, suitable camera coverage, connectivity and maintenance. Proposed stakeholders include MPSepang, participating private facility owners, Cyberview and connectivity providers. No partnership is confirmed.
 
@@ -137,7 +157,9 @@ The system does not identify faces. A deployed service should minimise camera co
 
 Do not commit private tokens, `.env` files, databases, `.venv`, model weights or participant recordings. Review the model’s licence before any deployment beyond the student prototype.
 
-## References
+<a name="team"></a>
+
+## 📚 References
 
 - [Media Selangor: Selangor councils get RM30,000 each to build delivery rider rest stops](https://mediaselangor.com/en/2025/09/320927), 16 September 2025.
 - [Media Selangor: TEDUH gives Selangor riders respite from sun, rain and the road](https://mediaselangor.com/en/2026/09/393885), 4 September 2026.
