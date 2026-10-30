@@ -97,7 +97,7 @@ The shared server would run people detection for participating locations, reduci
 
 The intended 5G workload is repeated camera-image uploads across distributed sites, particularly where fixed broadband is impractical. Small rain-sensor messages alone do not require 5G. Suitable 4G or fixed broadband may also support the service. A field comparison must establish whether 5G improves count freshness, delivery success or deployment practicality for the selected workload.
 
-**The current prototype uses local processing. Multi-site 5G image delivery and its performance benefits remain proposed.** No network slicing, guaranteed latency or city deployment is claimed.
+**The current prototype uses local processing. Multi-site 5G image delivery and its performance benefits remain proposed.** 
 
 ## ✅ Prototype status
 
