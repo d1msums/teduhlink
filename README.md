@@ -15,6 +15,7 @@
 ![Backend](https://img.shields.io/badge/BACKEND-PYTHON-3776AB?style=for-the-badge)
 
 [![Open interactive demo](https://img.shields.io/badge/EXPLORE-TEDUHLINK_DEMO-C8F500?style=for-the-badge)](https://d1msums.github.io/teduhlink/)
+[![Watch video](https://img.shields.io/badge/WATCH-DEMONSTRATION-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/v9Tzipfhvr8)
 [![Repository](https://img.shields.io/badge/VIEW-SOURCE_CODE-202725?style=for-the-badge)](https://github.com/d1msums/teduhlink)
 
 [Overview](#project-overview) · [Local context](#inspiration-and-local-context) · [How it works](#how-it-works) · [Run locally](#run-the-working-prototype) 
@@ -29,7 +30,8 @@ When rain interrupts a delivery, riders need somewhere suitable to stop. TeduhLi
 
 Our controlled indoor prototype combines an ESP32 rain-contact sensor, automatic people detection and a live app. A separate public interactive demo explains the rider experience using simulated readings and illustrative distances.
 
-**[Open the public interactive demo](https://d1msums.github.io/teduhlink/)**
+**[Open the public interactive demo](https://d1msums.github.io/teduhlink/)**  
+**[Watch the TeduhLink demonstration video](https://youtu.be/v9Tzipfhvr8)**
 
 The demo uses real Cyberjaya place names to explain proposed locations. It does not show sensors installed at those premises or imply permission or partnership.
 
