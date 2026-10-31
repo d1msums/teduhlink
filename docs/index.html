@@ -58,7 +58,7 @@ main{display:grid;grid-template-columns:minmax(0,1fr) 360px;align-items:stretch;
   function stop(){if(timer)clearInterval(timer);timer=null;q('#deploy-play').textContent='▶ Play automatic flow';}
   function render(){
     host.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
-    q('#deploy-summary').textContent=mode==='proposed'?'PROPOSED: camera images → 5G connection → shared AI server → backend → rider app.':'WORKING PROTOTYPE: camera → laptop AI → backend → rider app. The current flow does not require 5G.';
+    q('#deploy-summary').textContent=mode==='proposed'?'PROPOSED: camera images → 5G connection → shared AI server → backend → rider app.':'WORKING PROTOTYPE: camera → laptop AI → backend → rider app. Local updates via a mobile hotspot; proposed 5G deployment connects shelter cameras to shared AI.';
     const names=mode==='proposed'?['Shelter cameras','5G gateway','Shared AI + backend','Rider app']:['Camera','Laptop AI','Backend','Rider app'];
     const icons=['▣',mode==='proposed'?'◉':'▤','⚙','▯'];
     q('.deploy-progress').innerHTML=names.map((n,i)=>`<button class="deploy-step" data-stage="${i}" ${i===stage?'aria-current="step"':''}>${i+1}. ${n}</button>`).join('');
