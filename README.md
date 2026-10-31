@@ -26,7 +26,7 @@
 
 ## 🌧️ Project overview
 
-When rain interrupts a delivery, riders need somewhere suitable to stop. TeduhLink helps them browse proposed shelter locations and compare estimated crowding before choosing a stop.
+When rain interrupts a delivery, riders need somewhere suitable to stop. TeduhLink helps them browse proposed shelter locations and compare estimated crowding before choosing a stop. Riders can also use the directory in dry weather to plan a rest, prayer break, refreshment stop or phone charging, where those facilities are confirmed available.
 
 Our controlled indoor prototype combines an ESP32 rain-contact sensor, automatic people detection and a live app. A separate public interactive demo explains the rider experience using simulated readings and illustrative distances.
 
@@ -56,6 +56,16 @@ TeduhLink is inspired by the existing TEDUH rider shelter initiative. [Media Sel
 The demo uses **three people or more as Busy**. This is a demonstration threshold, not a verified shelter capacity. People counts do not measure free seats, motorcycle bays or permission to stop. Riders remain responsible for choosing a suitable place and should stop safely before using the phone.
 
 <a name="how-it-works"></a>
+
+## 🌦️ Planned weather information and stop facilities
+
+A real deployment would integrate **MET Malaysia area forecasts and weather warnings** through the [official weather API](https://developer.data.gov.my/realtime-api/weather). This integration is proposed and is not connected in the public demo. These area products do not confirm rain at an individual shelter or predict an exact rain-arrival time.
+
+The physical ESP32 prototype measures actual water contact during controlled tests. Its readings can complement official weather information; it is not a simulated sensor. Readings in the public interactive journey are simulated.
+
+Stop details now show facilities to verify: fuel, mart or refreshments, surau, phone charging and toilets. These are **unverified at the named demo locations**. A deployed directory should record confirmation by the site owner, access conditions, hours and when the information was last checked. A facility should not be recommended for a particular need until that need is confirmed available.
+
+The core idea remains shelter discovery with automatic crowding estimates. Facility information gives riders another reason to choose an appropriate participating stop, both during rain and for everyday breaks. Access and usefulness still need validation with riders and site owners.
 
 ## ⚙️ How it works
 
